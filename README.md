@@ -44,20 +44,14 @@ In the cell below:
 
 
 ```python
-from sqlalchemy import *
-from sqlalchemy.ext.declarative import declarative_base
 
-Base = declarative_base()
+
+Base = None
 ```
 
 Good! Now, since we'll need to define relationships between our tables, we'll need to import one more thing. In the cell below, import `relationship` from sqlalchemy's `orm` module. 
 
 **_Note_**: Make sure you import `relationship`, not the plural `relationships`!
-
-
-```python
-from sqlalchemy.orm import relationship
-```
 
 #### Creating Our Class Mappings
 
@@ -87,43 +81,45 @@ In the cell below:
 
 ```python
 class Customer(Base):
-    __tablename__ = 'customer'
+    __tablename__ = None
     
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    cart_id = Column(Integer, ForeignKey('shoppingCart.id'))
+    id = None
+    name = None
+    cart_id = None
     
     # Create 1-to-1 relationship with ShoppingCart, as shown in the SQLAlchemy documentation
-    shoppingCart = relationship('ShoppingCart', uselist=False, back_populates='customer')
+    shoppingCart = None
 
 ```
 
 
 ```python
 class ShoppingCart(Base):
-    __tablename__ = "shoppingCart"
+    __tablename__ = None
     
-    id = Column(Integer, primary_key=True)
-    item_id = Column(Integer, ForeignKey('item.id'))
+    id = None
+    item_id = None
     # Create 1-to-1 relationship with Customer
-    customer = relationship('Customer', uselist=False, back_populates='shoppingCart')
+    customer = None
     # Create 1-to-many relationship with Item
-    items = relationship('Item')
+    items = None
 ```
 
 
 ```python
 class Item(Base):
-    __tablename__ = 'item'
+    __tablename__ = None
     
-    id = Column(Integer, primary_key=True)
-    description = Column(String)
-    price = Column(Float)
+    id = None
+    description = None
+    price = None
 ```
 
 ### Creating Our Database
 
-Now that we've successfully defined our mappings, we can actually create our database. We'll call our database `shopping_cart.db`.
+Now that we've successfully defined our mappings, we can actually create our database. We'll call our database `shopping_cart.db`. 
+
+When creating the engine, remember to put `sqlite:///` in front of the name of the database we'll be creating, and also set `echo=True`!
 
 In the cell below:
 
@@ -132,55 +128,10 @@ In the cell below:
 
 
 ```python
-engine = create_engine('sqlite:///shopping_cart.db', echo=True)
-Base.metadata.create_all(engine)
-```
+engine = None
 
-    2018-10-23 00:50:57,737 INFO sqlalchemy.engine.base.Engine SELECT CAST('test plain returns' AS VARCHAR(60)) AS anon_1
-    2018-10-23 00:50:57,741 INFO sqlalchemy.engine.base.Engine ()
-    2018-10-23 00:50:57,745 INFO sqlalchemy.engine.base.Engine SELECT CAST('test unicode returns' AS VARCHAR(60)) AS anon_1
-    2018-10-23 00:50:57,745 INFO sqlalchemy.engine.base.Engine ()
-    2018-10-23 00:50:57,747 INFO sqlalchemy.engine.base.Engine PRAGMA table_info("customer")
-    2018-10-23 00:50:57,749 INFO sqlalchemy.engine.base.Engine ()
-    2018-10-23 00:50:57,751 INFO sqlalchemy.engine.base.Engine PRAGMA table_info("shoppingCart")
-    2018-10-23 00:50:57,752 INFO sqlalchemy.engine.base.Engine ()
-    2018-10-23 00:50:57,753 INFO sqlalchemy.engine.base.Engine PRAGMA table_info("item")
-    2018-10-23 00:50:57,754 INFO sqlalchemy.engine.base.Engine ()
-    2018-10-23 00:50:57,755 INFO sqlalchemy.engine.base.Engine 
-    CREATE TABLE item (
-    	id INTEGER NOT NULL, 
-    	description VARCHAR, 
-    	price FLOAT, 
-    	PRIMARY KEY (id)
-    )
-    
-    
-    2018-10-23 00:50:57,758 INFO sqlalchemy.engine.base.Engine ()
-    2018-10-23 00:50:57,776 INFO sqlalchemy.engine.base.Engine COMMIT
-    2018-10-23 00:50:57,778 INFO sqlalchemy.engine.base.Engine 
-    CREATE TABLE "shoppingCart" (
-    	id INTEGER NOT NULL, 
-    	item_id INTEGER, 
-    	PRIMARY KEY (id), 
-    	FOREIGN KEY(item_id) REFERENCES item (id)
-    )
-    
-    
-    2018-10-23 00:50:57,780 INFO sqlalchemy.engine.base.Engine ()
-    2018-10-23 00:50:57,792 INFO sqlalchemy.engine.base.Engine COMMIT
-    2018-10-23 00:50:57,794 INFO sqlalchemy.engine.base.Engine 
-    CREATE TABLE customer (
-    	id INTEGER NOT NULL, 
-    	name VARCHAR, 
-    	cart_id INTEGER, 
-    	PRIMARY KEY (id), 
-    	FOREIGN KEY(cart_id) REFERENCES "shoppingCart" (id)
-    )
-    
-    
-    2018-10-23 00:50:57,795 INFO sqlalchemy.engine.base.Engine ()
-    2018-10-23 00:50:57,808 INFO sqlalchemy.engine.base.Engine COMMIT
-    
+
+```
 
 ### CRUD Operations
 
@@ -205,13 +156,6 @@ Note that this data has not yet been put into the database.  Before that happens
 customer1.id, item1.id
 ```
 
-
-
-
-    (None, None)
-
-
-
 You may have noticed that we defined values for certain attributes such as the customer's name, or the item's description and price, but never attributes that act as ids.  There's a reason for this--SQLAlchemy takes care of this for us! Since every primary key has to be unique, this means that defining the integer values for primary keys would be really cumbersome, since we would need to keep track of every primary key that's been created so far--a much better task for a computer than for us!
 
 Another thing you might have noticed is that to create relationships between objects, we just assign them to attributes that were defined as `relationship` objects when we created our mappings!
@@ -228,10 +172,10 @@ In the cell below:
 
 
 ```python
-from sqlalchemy.orm import sessionmaker, Session
-Session = sessionmaker(bind=engine)
 
-session = Session()
+Session = None
+
+session = None
 ```
 
 Great! Now we have a session object that we can use to interact with our database.
@@ -240,64 +184,18 @@ We can add items to our database one at a time by passing them in as a parameter
 
 
 ```python
-session.add_all([customer1, cart1, item1])
+session.add_all(None)
 ```
 
 Adding something multiple times will not throw an error or cause duplicates.  We can see all the items that have been added by checking the session object's `.new` attribute. Do this now in the cell below.
-
-
-```python
-session.new
-```
-
-
-
-
-    IdentitySet([<__main__.Customer object at 0x000001F186C049B0>, <__main__.ShoppingCart object at 0x000001F186C046A0>, <__main__.Item object at 0x000001F186C04908>])
-
-
 
 Now, commit our objects to push them to the database. 
 
 In the cell below, call `session.commit()`.
 
-
-```python
-session.commit()
-```
-
-    2018-10-23 00:50:57,916 INFO sqlalchemy.engine.base.Engine BEGIN (implicit)
-    2018-10-23 00:50:57,918 INFO sqlalchemy.engine.base.Engine INSERT INTO item (description, price) VALUES (?, ?)
-    2018-10-23 00:50:57,919 INFO sqlalchemy.engine.base.Engine ('widget', 9.99)
-    2018-10-23 00:50:57,922 INFO sqlalchemy.engine.base.Engine INSERT INTO "shoppingCart" (item_id) VALUES (?)
-    2018-10-23 00:50:57,923 INFO sqlalchemy.engine.base.Engine (1,)
-    2018-10-23 00:50:57,926 INFO sqlalchemy.engine.base.Engine INSERT INTO customer (name, cart_id) VALUES (?, ?)
-    2018-10-23 00:50:57,927 INFO sqlalchemy.engine.base.Engine ('Jane', 1)
-    2018-10-23 00:50:57,929 INFO sqlalchemy.engine.base.Engine COMMIT
-    
-
 If we check the object ids again, we'll see that they now have values for their primary keys.
 
 In the cell below, check the `.id` attribute of `customer1`.
-
-
-```python
-item1.id
-```
-
-    2018-10-23 00:50:57,955 INFO sqlalchemy.engine.base.Engine BEGIN (implicit)
-    2018-10-23 00:50:57,957 INFO sqlalchemy.engine.base.Engine SELECT item.id AS item_id, item.description AS item_description, item.price AS item_price 
-    FROM item 
-    WHERE item.id = ?
-    2018-10-23 00:50:57,959 INFO sqlalchemy.engine.base.Engine (1,)
-    
-
-
-
-
-    1
-
-
 
 # Conclusion
 
