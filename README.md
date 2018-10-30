@@ -1,5 +1,5 @@
 
-# Using An ORM - Lab
+# Using an ORM - Lab
 
 ## Introduction
 
@@ -7,13 +7,13 @@ In this lab, we'll make use of SQLAlchemy to execute CRUD operations on a SQL da
 
 ## Objectives
 
-You will learn how to:
+You will be able to:
 
 * Identify the steps needed to use SQLAlchemy with a database
 * Understand and explain the concept of an Object Relational Mapper
 * Execute CRUD operations on a database using SQLAlchemy
 
-### Getting Started
+## Getting Started
 
 In this lesson, we'll make use of our newfound SQLAlchemy knowledge to create a database, populate it with data, and write queries to retrieve objects containing the information we want. 
 
@@ -32,7 +32,7 @@ ________________________________________________________________________________
 Customers have a 1-to-1 relationship with shopping carts, while shopping carts have 1-to-many relationship with items.
 
 
-### Defining Our Mappings
+## Defining Our Mappings
 
 We'll begin by importing everything we need to create our database and structure our mappings so that they look like the tables in the ERD.  
 
@@ -121,7 +121,7 @@ class Item(Base):
     price = Column(Float)
 ```
 
-### Creating Our Database
+## Creating Our Database
 
 Now that we've successfully defined our mappings, we can actually create our database. We'll call our database `shopping_cart.db`.
 
@@ -136,17 +136,17 @@ engine = create_engine('sqlite:///shopping_cart.db', echo=True)
 Base.metadata.create_all(engine)
 ```
 
-    2018-10-23 00:50:57,737 INFO sqlalchemy.engine.base.Engine SELECT CAST('test plain returns' AS VARCHAR(60)) AS anon_1
-    2018-10-23 00:50:57,741 INFO sqlalchemy.engine.base.Engine ()
-    2018-10-23 00:50:57,745 INFO sqlalchemy.engine.base.Engine SELECT CAST('test unicode returns' AS VARCHAR(60)) AS anon_1
-    2018-10-23 00:50:57,745 INFO sqlalchemy.engine.base.Engine ()
-    2018-10-23 00:50:57,747 INFO sqlalchemy.engine.base.Engine PRAGMA table_info("customer")
-    2018-10-23 00:50:57,749 INFO sqlalchemy.engine.base.Engine ()
-    2018-10-23 00:50:57,751 INFO sqlalchemy.engine.base.Engine PRAGMA table_info("shoppingCart")
-    2018-10-23 00:50:57,752 INFO sqlalchemy.engine.base.Engine ()
-    2018-10-23 00:50:57,753 INFO sqlalchemy.engine.base.Engine PRAGMA table_info("item")
-    2018-10-23 00:50:57,754 INFO sqlalchemy.engine.base.Engine ()
-    2018-10-23 00:50:57,755 INFO sqlalchemy.engine.base.Engine 
+    2018-10-30 16:21:37,961 INFO sqlalchemy.engine.base.Engine SELECT CAST('test plain returns' AS VARCHAR(60)) AS anon_1
+    2018-10-30 16:21:37,962 INFO sqlalchemy.engine.base.Engine ()
+    2018-10-30 16:21:37,964 INFO sqlalchemy.engine.base.Engine SELECT CAST('test unicode returns' AS VARCHAR(60)) AS anon_1
+    2018-10-30 16:21:37,965 INFO sqlalchemy.engine.base.Engine ()
+    2018-10-30 16:21:37,967 INFO sqlalchemy.engine.base.Engine PRAGMA table_info("customer")
+    2018-10-30 16:21:37,967 INFO sqlalchemy.engine.base.Engine ()
+    2018-10-30 16:21:37,969 INFO sqlalchemy.engine.base.Engine PRAGMA table_info("shoppingCart")
+    2018-10-30 16:21:37,970 INFO sqlalchemy.engine.base.Engine ()
+    2018-10-30 16:21:37,971 INFO sqlalchemy.engine.base.Engine PRAGMA table_info("item")
+    2018-10-30 16:21:37,971 INFO sqlalchemy.engine.base.Engine ()
+    2018-10-30 16:21:37,973 INFO sqlalchemy.engine.base.Engine 
     CREATE TABLE item (
     	id INTEGER NOT NULL, 
     	description VARCHAR, 
@@ -155,9 +155,9 @@ Base.metadata.create_all(engine)
     )
     
     
-    2018-10-23 00:50:57,758 INFO sqlalchemy.engine.base.Engine ()
-    2018-10-23 00:50:57,776 INFO sqlalchemy.engine.base.Engine COMMIT
-    2018-10-23 00:50:57,778 INFO sqlalchemy.engine.base.Engine 
+    2018-10-30 16:21:37,974 INFO sqlalchemy.engine.base.Engine ()
+    2018-10-30 16:21:37,977 INFO sqlalchemy.engine.base.Engine COMMIT
+    2018-10-30 16:21:37,979 INFO sqlalchemy.engine.base.Engine 
     CREATE TABLE "shoppingCart" (
     	id INTEGER NOT NULL, 
     	item_id INTEGER, 
@@ -166,9 +166,9 @@ Base.metadata.create_all(engine)
     )
     
     
-    2018-10-23 00:50:57,780 INFO sqlalchemy.engine.base.Engine ()
-    2018-10-23 00:50:57,792 INFO sqlalchemy.engine.base.Engine COMMIT
-    2018-10-23 00:50:57,794 INFO sqlalchemy.engine.base.Engine 
+    2018-10-30 16:21:37,985 INFO sqlalchemy.engine.base.Engine ()
+    2018-10-30 16:21:37,987 INFO sqlalchemy.engine.base.Engine COMMIT
+    2018-10-30 16:21:37,988 INFO sqlalchemy.engine.base.Engine 
     CREATE TABLE customer (
     	id INTEGER NOT NULL, 
     	name VARCHAR, 
@@ -178,11 +178,11 @@ Base.metadata.create_all(engine)
     )
     
     
-    2018-10-23 00:50:57,795 INFO sqlalchemy.engine.base.Engine ()
-    2018-10-23 00:50:57,808 INFO sqlalchemy.engine.base.Engine COMMIT
-    
+    2018-10-30 16:21:37,989 INFO sqlalchemy.engine.base.Engine ()
+    2018-10-30 16:21:37,991 INFO sqlalchemy.engine.base.Engine COMMIT
 
-### CRUD Operations
+
+## CRUD Operations
 
 We've now created a database, but our tables don't contain any data yet!
 
@@ -216,7 +216,7 @@ You may have noticed that we defined values for certain attributes such as the c
 
 Another thing you might have noticed is that to create relationships between objects, we just assign them to attributes that were defined as `relationship` objects when we created our mappings!
 
-### Creating a Session Object
+## Creating a Session Object
 
 In order to add our new data to our database tables, we first need to create a session object. 
 
@@ -253,7 +253,7 @@ session.new
 
 
 
-    IdentitySet([<__main__.Customer object at 0x000001F186C049B0>, <__main__.ShoppingCart object at 0x000001F186C046A0>, <__main__.Item object at 0x000001F186C04908>])
+    IdentitySet([<__main__.Customer object at 0x108e90a58>, <__main__.ShoppingCart object at 0x108eac6d8>, <__main__.Item object at 0x108e90668>])
 
 
 
@@ -266,15 +266,15 @@ In the cell below, call `session.commit()`.
 session.commit()
 ```
 
-    2018-10-23 00:50:57,916 INFO sqlalchemy.engine.base.Engine BEGIN (implicit)
-    2018-10-23 00:50:57,918 INFO sqlalchemy.engine.base.Engine INSERT INTO item (description, price) VALUES (?, ?)
-    2018-10-23 00:50:57,919 INFO sqlalchemy.engine.base.Engine ('widget', 9.99)
-    2018-10-23 00:50:57,922 INFO sqlalchemy.engine.base.Engine INSERT INTO "shoppingCart" (item_id) VALUES (?)
-    2018-10-23 00:50:57,923 INFO sqlalchemy.engine.base.Engine (1,)
-    2018-10-23 00:50:57,926 INFO sqlalchemy.engine.base.Engine INSERT INTO customer (name, cart_id) VALUES (?, ?)
-    2018-10-23 00:50:57,927 INFO sqlalchemy.engine.base.Engine ('Jane', 1)
-    2018-10-23 00:50:57,929 INFO sqlalchemy.engine.base.Engine COMMIT
-    
+    2018-10-30 16:21:38,058 INFO sqlalchemy.engine.base.Engine BEGIN (implicit)
+    2018-10-30 16:21:38,061 INFO sqlalchemy.engine.base.Engine INSERT INTO item (description, price) VALUES (?, ?)
+    2018-10-30 16:21:38,061 INFO sqlalchemy.engine.base.Engine ('widget', 9.99)
+    2018-10-30 16:21:38,063 INFO sqlalchemy.engine.base.Engine INSERT INTO "shoppingCart" (item_id) VALUES (?)
+    2018-10-30 16:21:38,064 INFO sqlalchemy.engine.base.Engine (1,)
+    2018-10-30 16:21:38,066 INFO sqlalchemy.engine.base.Engine INSERT INTO customer (name, cart_id) VALUES (?, ?)
+    2018-10-30 16:21:38,067 INFO sqlalchemy.engine.base.Engine ('Jane', 1)
+    2018-10-30 16:21:38,069 INFO sqlalchemy.engine.base.Engine COMMIT
+
 
 If we check the object ids again, we'll see that they now have values for their primary keys.
 
@@ -285,12 +285,12 @@ In the cell below, check the `.id` attribute of `customer1`.
 item1.id
 ```
 
-    2018-10-23 00:50:57,955 INFO sqlalchemy.engine.base.Engine BEGIN (implicit)
-    2018-10-23 00:50:57,957 INFO sqlalchemy.engine.base.Engine SELECT item.id AS item_id, item.description AS item_description, item.price AS item_price 
+    2018-10-30 16:21:38,080 INFO sqlalchemy.engine.base.Engine BEGIN (implicit)
+    2018-10-30 16:21:38,084 INFO sqlalchemy.engine.base.Engine SELECT item.id AS item_id, item.description AS item_description, item.price AS item_price 
     FROM item 
     WHERE item.id = ?
-    2018-10-23 00:50:57,959 INFO sqlalchemy.engine.base.Engine (1,)
-    
+    2018-10-30 16:21:38,085 INFO sqlalchemy.engine.base.Engine (1,)
+
 
 
 
@@ -299,6 +299,6 @@ item1.id
 
 
 
-# Conclusion
+## Summary
 
 In this lab, we created a database with SQLAlchemy, defined our mappings to structure the tables, and even added some data to the database. Great job! 
