@@ -1,5 +1,5 @@
 
-# Using An ORM - Lab
+# Using an ORM - Lab
 
 ## Introduction
 
@@ -7,13 +7,13 @@ In this lab, we'll make use of SQLAlchemy to execute CRUD operations on a SQL da
 
 ## Objectives
 
-You will learn how to:
+You will be able to:
 
 * Identify the steps needed to use SQLAlchemy with a database
 * Understand and explain the concept of an Object Relational Mapper
 * Execute CRUD operations on a database using SQLAlchemy
 
-### Getting Started
+## Getting Started
 
 In this lesson, we'll make use of our newfound SQLAlchemy knowledge to create a database, populate it with data, and write queries to retrieve objects containing the information we want. 
 
@@ -53,7 +53,7 @@ Good! Now, since we'll need to define relationships between our tables, we'll ne
 
 **_Note_**: Make sure you import `relationship`, not the plural `relationships`!
 
-#### Creating Our Class Mappings
+### Creating Our Class Mappings
 
 Now that we've created a `Base` object, we can define our classes! 
 
@@ -115,7 +115,7 @@ class Item(Base):
     price = None
 ```
 
-### Creating Our Database
+## Creating Our Database
 
 Now that we've successfully defined our mappings, we can actually create our database. We'll call our database `shopping_cart.db`. 
 
@@ -133,7 +133,7 @@ engine = None
 
 ```
 
-### CRUD Operations
+## CRUD Operations
 
 We've now created a database, but our tables don't contain any data yet!
 
@@ -160,7 +160,7 @@ You may have noticed that we defined values for certain attributes such as the c
 
 Another thing you might have noticed is that to create relationships between objects, we just assign them to attributes that were defined as `relationship` objects when we created our mappings!
 
-### Creating a Session Object
+## Creating a Session Object
 
 In order to add our new data to our database tables, we first need to create a session object. 
 
@@ -197,6 +197,6 @@ If we check the object ids again, we'll see that they now have values for their 
 
 In the cell below, check the `.id` attribute of `customer1`.
 
-# Conclusion
+## Summary
 
 In this lab, we created a database with SQLAlchemy, defined our mappings to structure the tables, and even added some data to the database. Great job! 
